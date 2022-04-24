@@ -59,6 +59,37 @@
 
 <script>
 
+    function playSound(e){
+        // utilizo o seletor para encontrar nas tags audio o atributo [] data-key com o valor vindo do evento disparado
+        
+        // Get DOM elements
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
+        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`)
+        
+        if(!audio) return // stop the function because no audio tag corresponding
+        audio.currentTime = 0 // recoloca a execução para o inicio a cada iteração
+        audio.play()
+
+        // at each event I put the class and then remove it
+        key.classList.add("playing")
+
+        function removeTransition(e){
+            // const target = e.target
+            // target.classList.remove("playing")
+            if (e.propertyName !== "transform") return
+            console.log(this)
+            this.classList.remove("playing")
+        }
+        
+        const keys = document.querySelectorAll(".key")
+        keys.forEach( key => {
+            key.addEventListener("transitionend", removeTransition)
+        })
+    }
+     window.addEventListener('keydown', playSound)
+
+
+    
 </script>
 
 
